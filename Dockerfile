@@ -14,7 +14,7 @@ WORKDIR /tmp
 # Environment
 ENV NGINX_VER nginx-1.9.9
 
-# Clean and Update the System
+# Update the System & Install essentials
 RUN apk --update add wget build-base pcre-dev zlib-dev openssl-dev
 
 # NGINX Source
@@ -42,6 +42,9 @@ RUN mkdir /home/www && chown -R nobody:nogroup /home/www
 # additional Files
 ADD nginx.conf /etc/nginx/conf/nginx.conf
 COPY www /www
+
+# Add Volume for external Mounting
+VOLUME /www
 
 # forward logs
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/nginx/error.log
