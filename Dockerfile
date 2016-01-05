@@ -2,19 +2,19 @@
 # NGINX from Source on Alpine Linux
 ###################################
 
-# Base Image
+# base
 FROM alpine:3.1
 
-# Maintainer Information
+# maintainer
 MAINTAINER Marcus Schuh <mschuh@meo-tech.de>
 
-# Change to /tmp
+# change to /tmp
 WORKDIR /tmp
 
-# Environment
+# environment
 ENV NGINX_VER nginx-1.9.9
 
-# Update the System & Install essentials
+# update & install essentials
 RUN apk --update add wget build-base pcre-dev zlib-dev openssl-dev
 
 # NGINX Source
@@ -36,21 +36,21 @@ RUN wget http://nginx.org/download/${NGINX_VER}.tar.gz && \
     rm -rf /tmp/${NGINX_VER} && \
     rm -rf /var/cache/apk/*
 
-# Webroot 
-RUN mkdir /home/www && chown -R nobody:nogroup /home/www
-
 # additional Files
 ADD nginx.conf /etc/nginx/conf/nginx.conf
+
+# adding webroot 
+RUN mkdir /www && chown -R nobody:nogroup /www
 COPY www /www
 
-# Add Volume for external Mounting
+# add volume for external mounting
 VOLUME /www
 
 # forward logs
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/nginx/error.log
 
-# Expose Ports
+# expose ports
 EXPOSE 80 443
 
-# Start NGINX
+# start NGINX
 CMD ["nginx"]
