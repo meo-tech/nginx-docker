@@ -3,7 +3,7 @@
 ###################################
 
 # base
-FROM alpine:3.1
+FROM alpine:latest
 
 # maintainer
 MAINTAINER Marcus Schuh <mschuh@meo-tech.de>
@@ -12,7 +12,7 @@ MAINTAINER Marcus Schuh <mschuh@meo-tech.de>
 WORKDIR /tmp
 
 # environment
-ENV NGINX_VER nginx-1.9.9
+ENV NGINX_VER nginx-1.13.6
 
 # update & install essentials
 RUN apk --update add wget build-base pcre-dev zlib-dev openssl-dev
